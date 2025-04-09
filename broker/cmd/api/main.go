@@ -1,7 +1,7 @@
 package main
 
 import (
-	configs "broker/internal/app"
+	"broker/internal/app"
 	"log"
 	"net/http"
 
@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	configs.LoadConfig()
+	app.LoadConfig()
 
 	router := gin.Default()
 
@@ -17,7 +17,7 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"status": "ok"})
 	})
 
-	log.Println("Starting server on", configs.App.URL)
+	log.Println("Starting server on", app.App.URL)
 
-	router.Run(configs.App.URL)
+	router.Run(app.App.URL)
 }
