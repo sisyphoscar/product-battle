@@ -3,10 +3,8 @@ package main
 import (
 	"log"
 	"net/http"
+	"product/internal/app/bootstrap"
 	"product/internal/app/configs"
-	"product/internal/domain/product"
-	"product/internal/infra/db"
-	repository "product/internal/infra/repositories/postgres"
 	"product/internal/interfaces/grpc"
 
 	"github.com/gin-gonic/gin"
@@ -15,17 +13,15 @@ import (
 func main() {
 	configs.LoadConfig()
 
-	db, err := db.NewPostgres()
-	if err != nil {
-		log.Fatalf("failed to connect to database: %v", err)
-	}
-	defer db.Close()
+	container := bootstrap.NewAppContainer()
+	defer container.Close()
 
-	productRepo := repository.NewProductRepository(db)
-	productService := product.NewProductService(productRepo)
+	go grpc.Listen(container.ProductService)
 
-	go grpc.Listen(productService)
+	httpListen()
+}
 
+func httpListen() {
 	router := gin.Default()
 
 	router.GET("/health-check", func(c *gin.Context) {
