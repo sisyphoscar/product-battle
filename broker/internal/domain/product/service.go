@@ -42,15 +42,15 @@ func (s *ProductService) Close() {
 }
 
 // GetAllProducts retrieves all products from the product service
-func (c *ProductService) GetAllProducts() ([]*Product, error) {
+func (c *ProductService) GetAllProducts() ([]Product, error) {
 	resp, err := c.client.GetAllProducts(context.Background(), &emptypb.Empty{})
 	if err != nil {
 		return nil, err
 	}
 
-	var products []*Product
+	var products []Product
 	for _, p := range resp.Products {
-		products = append(products, &Product{
+		products = append(products, Product{
 			ID:          p.Id,
 			Name:        p.Name,
 			Description: p.Description,
