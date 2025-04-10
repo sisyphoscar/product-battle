@@ -32,7 +32,7 @@ func NewAppContainer() *AppContainer {
 
 // Close cleans up the resources used by the application container.
 func (c *AppContainer) Close() {
-	if c.DB != nil {
-		c.DB.Close()
-	}
+	c.DB.Close()
+	log.Println("Database connection closed")
+	log.Println("Application container closed")
 }

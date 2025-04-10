@@ -1,7 +1,13 @@
 package main
 
 import (
+	"context"
+	"log"
 	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/oscarxxi/product-battle/product-service/internal/app"
@@ -12,20 +18,42 @@ import (
 func main() {
 	configs.LoadConfig()
 
-	container := app.NewAppContainer()
-	defer container.Close()
+	appContainer := app.NewAppContainer()
+	defer appContainer.Close()
 
-	go grpc.Listen(container.ProductService)
+	// gRPC server setup
+	go grpc.Listen(appContainer.ProductService)
 
-	httpListen()
-}
-
-func httpListen() {
+	// HTTP server setup
 	router := gin.Default()
 
 	router.GET("/health-check", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"status": "ok"})
 	})
 
-	router.Run(configs.App.URL)
+	server := &http.Server{
+		Addr:    configs.App.URL,
+		Handler: router,
+	}
+
+	go func() {
+		err := server.ListenAndServe()
+		if err != nil && err != http.ErrServerClosed {
+			log.Fatalf("listen: %s\n", err)
+		}
+	}()
+
+	// Graceful shutdown
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+
+	<-quit
+	log.Println("Shutdown Server ...")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	if err := server.Shutdown(ctx); err != nil {
+		log.Println("Server Shutdown:", err)
+	}
 }
