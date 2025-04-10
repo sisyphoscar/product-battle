@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
-	"product/internal/app/bootstrap"
+	"product/internal/app"
 	"product/internal/app/configs"
 	"product/internal/interfaces/grpc"
 
@@ -13,7 +13,7 @@ import (
 func main() {
 	configs.LoadConfig()
 
-	container := bootstrap.NewAppContainer()
+	container := app.NewAppContainer()
 	defer container.Close()
 
 	go grpc.Listen(container.ProductService)
