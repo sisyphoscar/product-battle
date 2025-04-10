@@ -4,10 +4,10 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"product/internal/app/configs"
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/oscarxxi/product-battle/product-service/internal/app/configs"
 )
 
 // NewPostgres initializes a new PostgreSQL connection pool.

@@ -1,11 +1,11 @@
 package main
 
 import (
-	"broker/internal/app/configs"
 	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/oscarxxi/product-battle/broker/internal/app/configs"
 )
 
 func main() {

@@ -2,11 +2,11 @@ package app
 
 import (
 	"log"
-	"product/internal/domain/product"
-	"product/internal/infra/db"
-	repository "product/internal/infra/repositories/postgres"
 
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/oscarxxi/product-battle/product-service/internal/domain/product"
+	"github.com/oscarxxi/product-battle/product-service/internal/infra/db"
+	repository "github.com/oscarxxi/product-battle/product-service/internal/infra/repositories/postgres"
 )
 
 type AppContainer struct {

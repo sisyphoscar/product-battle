@@ -2,10 +2,10 @@ package repository
 
 import (
 	"context"
-	"product/internal/domain/product"
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
+	"github.com/oscarxxi/product-battle/product-service/internal/domain/product"
 )
 
 type ProductRepository struct {

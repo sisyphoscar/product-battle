@@ -3,11 +3,11 @@ package main
 import (
 	"log"
 	"net/http"
-	"product/internal/app"
-	"product/internal/app/configs"
-	"product/internal/interfaces/grpc"
 
 	"github.com/gin-gonic/gin"
+	"github.com/oscarxxi/product-battle/product-service/internal/app"
+	"github.com/oscarxxi/product-battle/product-service/internal/app/configs"
+	"github.com/oscarxxi/product-battle/product-service/internal/interfaces/grpc"
 )
 
 func main() {

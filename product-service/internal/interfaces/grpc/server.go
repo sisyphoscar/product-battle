@@ -4,12 +4,13 @@ import (
 	"context"
 	"log"
 	"net"
-	"product/internal/app/configs"
-	"product/internal/domain/product"
-	product_proto "product/internal/interfaces/grpc/proto"
 
+	"github.com/oscarxxi/product-battle/product-service/internal/app/configs"
+	"github.com/oscarxxi/product-battle/product-service/internal/domain/product"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/emptypb"
+
+	product_proto "github.com/oscarxxi/product-battle/proto/product"
 )
 
 type ProductServer struct {
