@@ -14,5 +14,5 @@ func LoadConfig() {
 	}
 
 	loadAppConfig()
-	loadDBConfig()
+	loadEndpointConfig()
 }
