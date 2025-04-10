@@ -17,7 +17,7 @@ func NewProductRepository(db *pgxpool.Pool) *ProductRepository {
 	return &ProductRepository{db: db}
 }
 
-func (r *ProductRepository) Get() ([]product.Product, error) {
+func (r *ProductRepository) GetAll() ([]product.Product, error) {
 	// 5 seconds timeout
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()

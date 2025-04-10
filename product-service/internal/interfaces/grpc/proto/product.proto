@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package product_proto;
+
+import "google/protobuf/empty.proto";
+
+option go_package = "/product-service/internal/interfaces/grpc/proto/product_proto;product_proto";
+
+message Product {
+    uint64 id = 1;
+    string name = 2;
+    string description = 3;
+    string imageUrl = 4;
+}
+
+message ProductList {
+    repeated Product products = 1;
+}
+
+service ProductService {
+    rpc GetAllProducts(google.protobuf.Empty) returns (ProductList);
+}

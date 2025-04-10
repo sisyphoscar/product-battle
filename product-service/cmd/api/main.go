@@ -3,17 +3,17 @@ package main
 import (
 	"log"
 	"net/http"
-	"product/internal/app"
+	"product/internal/app/configs"
 	"product/internal/domain/product"
 	"product/internal/infra/db"
 	repository "product/internal/infra/repositories/postgres"
-	interface_http "product/internal/interfaces/http"
+	"product/internal/interfaces/grpc"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	app.LoadConfig()
+	configs.LoadConfig()
 
 	db, err := db.NewPostgres()
 	if err != nil {
@@ -23,7 +23,8 @@ func main() {
 
 	productRepo := repository.NewProductRepository(db)
 	productService := product.NewProductService(productRepo)
-	productHandler := interface_http.NewProductHandler(productService)
+
+	go grpc.Listen(productService)
 
 	router := gin.Default()
 
@@ -31,12 +32,7 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{"status": "ok"})
 	})
 
-	apiGroup := router.Group("/api/v1")
-	{
-		apiGroup.GET("/products", productHandler.GetProducts)
-	}
+	log.Println("Starting HTTP server on", configs.App.URL)
 
-	log.Println("Starting server on", app.App.URL)
-
-	router.Run(app.App.URL)
+	router.Run(configs.App.URL)
 }

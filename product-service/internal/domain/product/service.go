@@ -10,8 +10,8 @@ func NewProductService(repo ProductRepository) *ProductService {
 }
 
 // Get all products
-func (s *ProductService) GetProducts() ([]Product, error) {
-	products, err := s.repo.Get()
+func (s *ProductService) GetAll() ([]Product, error) {
+	products, err := s.repo.GetAll()
 	if err != nil {
 		return nil, err
 	}

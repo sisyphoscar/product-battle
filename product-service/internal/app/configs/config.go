@@ -1,4 +1,4 @@
-package app
+package configs
 
 import (
 	"log"
@@ -8,7 +8,8 @@ import (
 )
 
 type AppConfig struct {
-	URL string
+	URL      string
+	GRPCPort string
 }
 
 type DBConfig struct {
@@ -34,11 +35,17 @@ func LoadConfig() {
 
 func loadAppConfig() {
 	App = AppConfig{
-		URL: os.Getenv("APP_URL"),
+		URL:      os.Getenv("APP_URL"),
+		GRPCPort: os.Getenv("GRPC_PORT"),
 	}
+
 	if App.URL == "" {
 		log.Fatal("APP_URL is not set")
 	}
+	if App.GRPCPort == "" {
+		log.Fatal("GRPC_PORT is not set")
+	}
+
 	log.Println("App config loaded")
 }
 

@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"product/internal/app"
+	"product/internal/app/configs"
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -12,7 +12,7 @@ import (
 
 // NewPostgres initializes a new PostgreSQL connection pool.
 func NewPostgres() (*pgxpool.Pool, error) {
-	config, err := pgxpool.ParseConfig(app.DB.PostgresDSN)
+	config, err := pgxpool.ParseConfig(configs.DB.PostgresDSN)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse database URL: %w", err)
 	}
