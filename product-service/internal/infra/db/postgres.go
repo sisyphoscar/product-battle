@@ -38,6 +38,6 @@ func NewPostgres() (*pgxpool.Pool, error) {
 		return nil, fmt.Errorf("failed to ping database: %w", err)
 	}
 
-	log.Println("Connected to database successfully")
+	log.Println("Database connected")
 	return pool, nil
 }

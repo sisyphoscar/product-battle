@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -27,8 +26,6 @@ func httpListen() {
 	router.GET("/health-check", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"status": "ok"})
 	})
-
-	log.Println("Starting HTTP server on", configs.App.URL)
 
 	router.Run(configs.App.URL)
 }

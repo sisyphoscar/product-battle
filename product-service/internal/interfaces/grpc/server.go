@@ -29,7 +29,7 @@ func Listen(service *product.ProductService) {
 
 	product_proto.RegisterProductServiceServer(s, &ProductServer{service: service})
 
-	log.Printf("gRPC Server started on port %s", configs.App.GRPCPort)
+	log.Printf("Listening and serving gRPC on %s", configs.App.GRPCPort)
 
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("Failed to serve gRPC: %v", err)
