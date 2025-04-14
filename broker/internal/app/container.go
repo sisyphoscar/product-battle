@@ -5,11 +5,12 @@ import (
 
 	"github.com/oscarxxi/product-battle/broker/internal/domain/product"
 	"github.com/oscarxxi/product-battle/broker/internal/infra/messaging"
-	http_interface "github.com/oscarxxi/product-battle/broker/internal/interfaces/http"
+	handlers "github.com/oscarxxi/product-battle/broker/internal/interfaces/http/handlers"
 )
 
 type AppContainer struct {
-	ProductHandler *http_interface.ProductHandler
+	ProductHandler *handlers.ProductHandler
+	BattleHandler  *handlers.BattleHandler
 }
 
 // NewAppContainer initializes the application container with dependencies.
@@ -19,17 +20,21 @@ func NewAppContainer() *AppContainer {
 		log.Fatalf("Failed to connect to RabbitMQ: %v", err)
 	}
 
+	battleHandler := handlers.NewBattleHandler(rabbitMQ)
+
 	productService := product.NewProductService()
-	productHandler := http_interface.NewProductHandler(productService, rabbitMQ)
+	productHandler := handlers.NewProductHandler(productService)
 
 	return &AppContainer{
 		ProductHandler: productHandler,
+		BattleHandler:  battleHandler,
 	}
 }
 
 // Close cleans up the resources used by the application container.
 func (c *AppContainer) Close() {
 	c.ProductHandler.ProductService.Close()
-	c.ProductHandler.RabbitMQ.Close()
+	c.BattleHandler.RabbitMQ.Close()
+
 	log.Println("Application container closed")
 }

@@ -23,7 +23,7 @@ func main() {
 
 	// HTTP server setup
 	router := gin.Default()
-	router = http_interface.SetApiRoutes(router, appContainer.ProductHandler)
+	router = http_interface.SetApiRoutes(router, appContainer)
 
 	server := &http.Server{
 		Addr:    configs.App.URL,
