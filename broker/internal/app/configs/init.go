@@ -15,4 +15,5 @@ func LoadConfig() {
 
 	loadAppConfig()
 	loadEndpointConfig()
+	loadQueueConfig()
 }

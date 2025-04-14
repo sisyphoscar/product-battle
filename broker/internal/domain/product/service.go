@@ -26,6 +26,8 @@ func NewProductService() *ProductService {
 		log.Fatalf("Failed to connect to gRPC server: %v", err)
 	}
 
+	log.Println("ProductService connected")
+
 	return &ProductService{
 		client: product_proto.NewProductServiceClient(conn),
 		conn:   conn,
@@ -38,7 +40,7 @@ func (s *ProductService) Close() {
 	if err != nil {
 		log.Printf("Failed to close gRPC connection: %v", err)
 	}
-	log.Println("gRPC connection closed")
+	log.Println("ProductService connection closed")
 }
 
 // GetAllProducts retrieves all products from the product service
