@@ -11,6 +11,17 @@ services:
       - postgres17_data:/var/lib/postgresql/data
     env_file:
       - ./.env
+  rabbitmq:
+    image: rabbitmq:management-alpine
+    container_name: rabbit
+    ports:
+      - "5672:5672"  # MQ port
+      - "15672:15672"  # Management UI port
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    env_file:
+      - ./.env
 
 volumes:
   postgres17_data:
