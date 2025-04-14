@@ -12,7 +12,7 @@ func SetApiRoutes(router *gin.Engine, handler *ProductHandler) *gin.Engine {
 		c.JSON(http.StatusOK, gin.H{"status": "ok"})
 	})
 
-	apiGroup := router.Group("/api/v1")
+	apiGroup := router.Group("/api")
 	{
 		apiGroup.GET("/products", handler.GetAllProducts)
 	}
