@@ -1,0 +1,16 @@
+services:
+  postgres17:
+    image: postgres:17
+    container_name: postgres17
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "54317:5432"
+    volumes:
+      - postgres17_data:/var/lib/postgresql/data
+    env_file:
+      - ./.env
+
+volumes:
+  postgres17_data:
