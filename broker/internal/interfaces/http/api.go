@@ -15,6 +15,7 @@ func SetApiRoutes(router *gin.Engine, handler *ProductHandler) *gin.Engine {
 	apiGroup := router.Group("/api")
 	{
 		apiGroup.GET("/products", handler.GetAllProducts)
+		apiGroup.POST("/scores", handler.SettleProductScore)
 	}
 
 	return router

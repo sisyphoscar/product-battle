@@ -12,7 +12,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/oscarxxi/product-battle/broker/internal/app"
 	"github.com/oscarxxi/product-battle/broker/internal/app/configs"
-	"github.com/oscarxxi/product-battle/broker/internal/infra/messaging"
 	http_interface "github.com/oscarxxi/product-battle/broker/internal/interfaces/http"
 )
 
@@ -21,12 +20,6 @@ func main() {
 
 	appContainer := app.NewAppContainer()
 	defer appContainer.Close()
-
-	rabbitMQ, err := messaging.NewRabbitMQ("amqp://admin:admin@localhost:5672")
-	if err != nil {
-		log.Fatalf("Failed to connect to RabbitMQ: %v", err)
-	}
-	defer rabbitMQ.Close()
 
 	// HTTP server setup
 	router := gin.Default()
