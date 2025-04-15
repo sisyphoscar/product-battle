@@ -53,7 +53,7 @@ func (h *BattleHandler) SubmitProductBattle(c *gin.Context) {
 	}
 
 	// publish the results to RabbitMQ
-	err = h.RabbitMQ.Publish(configs.Queue.BattleResultQueue, string(resultsJSON))
+	err = h.RabbitMQ.Publish(configs.Queue.BattleScoreQueue, string(resultsJSON))
 	if err != nil {
 		helpers.ErrorResponse(c, err, helpers.ResponseOptions{
 			Status:  http.StatusInternalServerError,
