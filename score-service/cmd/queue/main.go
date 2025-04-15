@@ -7,6 +7,7 @@ import (
 	"syscall"
 
 	"github.com/oscarxxi/product-battle/score-service/internal/configs"
+	"github.com/oscarxxi/product-battle/score-service/internal/domain/score"
 	"github.com/oscarxxi/product-battle/score-service/internal/infra/messaging"
 )
 
@@ -19,9 +20,10 @@ func main() {
 	}
 	defer rabbitMQ.Close()
 
-	consumer := messaging.NewConsumer(rabbitMQ)
+	scoreService := score.NewScoreService()
+	scoreConsumer := messaging.NewScoreConsumer(rabbitMQ, scoreService)
 
-	err = consumer.Listen(configs.Queue.BattleScoreQueue)
+	err = scoreConsumer.Listen()
 	if err != nil {
 		log.Fatalf("Error listening to queue: %v", err)
 	}
