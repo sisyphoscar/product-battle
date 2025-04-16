@@ -1,6 +1,6 @@
 CREATE TABLE score_logs (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    game UUID NOT NULL,
+    game VARCHAR(255) NOT NULL,
     round INT NOT NULL,
     winner_id BIGINT NOT NULL, -- 外鍵，指向 products.id
     loser_id BIGINT NOT NULL,  -- 外鍵，指向 products.id

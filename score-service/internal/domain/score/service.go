@@ -6,34 +6,35 @@ import (
 )
 
 type ScoreService struct {
+	repo ScoreRepository
 }
 
-func NewScoreService() *ScoreService {
-	return &ScoreService{}
-}
-
-type ProductBattleResults struct {
-	SeasonID      string        `json:"seasonId" binding:"required"`
-	BattleResults []RoundResult `json:"roundResults" binding:"required,dive"`
-}
-
-type RoundResult struct {
-	Round    int    `json:"round" binding:"required,gt=0"`
-	WinnerID string `json:"winnerId" binding:"required"`
-	LoserID  string `json:"loserId" binding:"required"`
+// NewScoreService creates a new ScoreService instance
+func NewScoreService(repo ScoreRepository) *ScoreService {
+	return &ScoreService{
+		repo: repo,
+	}
 }
 
 // HandleBattleResults processes the battle results message
 func (s *ScoreService) HandleBattleResults(msg []byte) error {
-	var results ProductBattleResults
+	var results BattleResults
 	err := json.Unmarshal(msg, &results)
 	if err != nil {
 		log.Printf("Error unmarshalling message: %v", err)
 		return err
 	}
 
-	// Process the message here...
-	log.Println("Processing battle results:", results)
+	var scores []Score
+	for _, roundResult := range results.BattleResults {
+		scores = append(scores, *NewScore(results.Game, roundResult.Round, roundResult.WinnerID, roundResult.LoserID))
+	}
+
+	err = s.repo.SaveMany(scores)
+	if err != nil {
+		log.Printf("Error saving scores: %v", err)
+		return err
+	}
 
 	return nil
 }

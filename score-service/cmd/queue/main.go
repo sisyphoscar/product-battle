@@ -8,7 +8,9 @@ import (
 
 	"github.com/oscarxxi/product-battle/score-service/internal/configs"
 	"github.com/oscarxxi/product-battle/score-service/internal/domain/score"
+	"github.com/oscarxxi/product-battle/score-service/internal/infra/db"
 	"github.com/oscarxxi/product-battle/score-service/internal/infra/messaging"
+	repository "github.com/oscarxxi/product-battle/score-service/internal/infra/repositories/postgres"
 )
 
 func main() {
@@ -20,7 +22,15 @@ func main() {
 	}
 	defer rabbitMQ.Close()
 
-	scoreService := score.NewScoreService()
+	db, err := db.NewPostgres()
+	if err != nil {
+		log.Fatalf("Error connecting to database: %v", err)
+	}
+	defer db.Close()
+
+	scoreRepository := repository.NewScoreRepository(db)
+
+	scoreService := score.NewScoreService(scoreRepository)
 	scoreConsumer := messaging.NewScoreConsumer(rabbitMQ, scoreService)
 
 	err = scoreConsumer.Listen()

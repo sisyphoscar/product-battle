@@ -22,14 +22,14 @@ func NewBattleHandler(rabbitMQ *messaging.RabbitMQ) *BattleHandler {
 }
 
 type SubmitProductBattleRequest struct {
-	SeasonID      string         `json:"seasonId" binding:"required"`
+	Game          string         `json:"game" binding:"required"`
 	BattleResults []BattleResult `json:"roundResults" binding:"required,dive"`
 }
 
 type BattleResult struct {
 	Round    int    `json:"round" binding:"required,gt=0"`
-	WinnerID string `json:"winnerId" binding:"required"`
-	LoserID  string `json:"loserId" binding:"required"`
+	WinnerID uint64 `json:"winnerId" binding:"required"`
+	LoserID  uint64 `json:"loserId" binding:"required"`
 }
 
 // SubmitProductBattle handles the POST request to submit product battle results

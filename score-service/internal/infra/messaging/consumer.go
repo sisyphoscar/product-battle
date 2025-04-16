@@ -58,8 +58,9 @@ func (c *ScoreConsumer) handle(msgs <-chan amqp.Delivery) {
 		err := c.scoreService.HandleBattleResults(msg.Body)
 		if err != nil {
 			log.Printf("Error handling message: %v", err)
-			msg.Nack(false, true)
+			msg.Nack(false, true) // TODO: implement retry logic
 		} else {
+			log.Printf("Message processed successfully: %s", msg.Body)
 			msg.Ack(false)
 		}
 	}
