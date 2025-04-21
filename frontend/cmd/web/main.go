@@ -14,7 +14,7 @@ func main() {
 
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", gin.H{
-			"productEndpoint": "http://localhost:8081",
+			"brokerEndpoint": "http://localhost:8081",
 		})
 	})
 

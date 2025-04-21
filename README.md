@@ -37,16 +37,6 @@
 - broker 將結果透過 Message Queue 傳給 score-service
 - score-service 統計勝負資訊，寫入 DB
 
-```json
-{
-  "seasonId": "abc123",
-  "battleResults": [
-    { "round": 1, "winner_id": "b1", "loser_id": "b2" },
-    { "round": 2, "winner_id": "b1", "loser_id": "b3" }
-  ]
-}
-```
-
 ### 其他
 - log-service 統一管理 log
 - report-service 產生統計報表

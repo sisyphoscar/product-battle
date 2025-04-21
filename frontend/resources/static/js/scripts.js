@@ -3,11 +3,19 @@ let currentWinner = null;
 let currentRound = 1;
 const battleResults = [];
 
+// Main function to initialize the game
+async function initializeGame() {
+    const success = await fetchProducts();
+    if (success) {
+        renderBattleIfNeeded();
+    }
+}
+
 // Fetch product data from API
 async function fetchProducts() {
     const container = document.getElementById("product-container");
     try {
-        const response = await fetch(PRODUCT_Endpoint + "/api/products");
+        const response = await fetch(BROKER_ENDPOINT + "/api/products");
         if (!response.ok) {
             throw new Error(`HTTP error: ${response.status}`);
         }
@@ -20,10 +28,12 @@ async function fetchProducts() {
         products = result.data;
         currentWinner = products[0]; // default winner
 
-        renderBattleIfNeeded();
+        return true;
     } catch (error) {
         console.error("Get product data error:", error);
         container.innerHTML = `<p>Unable to load products, please try again later.</p>`;
+
+        return false;
     }
 }
 
@@ -33,6 +43,8 @@ function renderBattleIfNeeded() {
     container.innerHTML = ""; // Clear previous content
 
     if (products.length < 2) {
+        submitBattleResults();
+
         renderEndMessage(container);
         return;
     }
@@ -40,11 +52,24 @@ function renderBattleIfNeeded() {
     renderBattle(container);
 }
 
+// Submit battle results to the server
+function submitBattleResults() {
+    fetch(BROKER_ENDPOINT + "/api/product-battle/submit", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            game: "season1", // TODO: Replace with actual game/season identifier
+            roundResults: battleResults,
+        }),
+    });
+}
+
 // Render the end message
 function renderEndMessage(container) {
     const endMessage = createElement("p", {}, "The battle has ended! Thank you for participating.");
     container.appendChild(endMessage);
-    console.log("Battle results:", JSON.stringify({ seasonId: "abc123", battleResults }, null, 2));
 }
 
 // Render the battle UI
@@ -79,8 +104,8 @@ function createProductCard(product, opponentId, isCurrentWinner) {
 function vote(winnerId, loserId, isCurrentWinner) {
     battleResults.push({
         round: currentRound,
-        winner_id: winnerId,
-        loser_id: loserId,
+        winnerId: winnerId,
+        loserId: loserId,
     });
 
     currentRound++;
@@ -106,4 +131,5 @@ function createElement(tag, attributes = {}, textContent = "") {
     return element;
 }
 
-fetchProducts();
+// Call the main function to start the game
+initializeGame();
