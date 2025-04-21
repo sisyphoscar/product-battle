@@ -1,0 +1,109 @@
+let products = [];
+let currentWinner = null;
+let currentRound = 1;
+const battleResults = [];
+
+// Fetch product data from API
+async function fetchProducts() {
+    const container = document.getElementById("product-container");
+    try {
+        const response = await fetch(PRODUCT_Endpoint + "/api/products");
+        if (!response.ok) {
+            throw new Error(`HTTP error: ${response.status}`);
+        }
+        const result = await response.json();
+
+        if (!result || result.status !== 200 || !Array.isArray(result.data) || result.data.length < 2) {
+            throw new Error("Product data format is incorrect");
+        }
+
+        products = result.data;
+        currentWinner = products[0]; // default winner
+
+        renderBattleIfNeeded();
+    } catch (error) {
+        console.error("Get product data error:", error);
+        container.innerHTML = `<p>Unable to load products, please try again later.</p>`;
+    }
+}
+
+// Render the battle UI if needed
+function renderBattleIfNeeded() {
+    const container = document.getElementById("product-container");
+    container.innerHTML = ""; // Clear previous content
+
+    if (products.length < 2) {
+        renderEndMessage(container);
+        return;
+    }
+
+    renderBattle(container);
+}
+
+// Render the end message
+function renderEndMessage(container) {
+    const endMessage = createElement("p", {}, "The battle has ended! Thank you for participating.");
+    container.appendChild(endMessage);
+    console.log("Battle results:", JSON.stringify({ seasonId: "abc123", battleResults }, null, 2));
+}
+
+// Render the battle UI
+function renderBattle(container) {
+    const challenger = products[1];
+    const battleWrapper = createElement("div", { className: "battle-wrapper" });
+
+    const winnerDiv = createProductCard(currentWinner, challenger.id, true);
+    const challengerDiv = createProductCard(challenger, currentWinner.id, false);
+
+    battleWrapper.appendChild(winnerDiv);
+    battleWrapper.appendChild(challengerDiv);
+    container.appendChild(battleWrapper);
+}
+
+// Create product card
+function createProductCard(product, opponentId, isCurrentWinner) {
+    const productDiv = createElement("div");
+
+    const title = createElement("h2", {}, product.name);
+    const button = createElement("button", {}, "Vote");
+
+    button.onclick = () => vote(product.id, opponentId, isCurrentWinner);
+
+    productDiv.appendChild(title);
+    productDiv.appendChild(button);
+
+    return productDiv;
+}
+
+// Handle voting
+function vote(winnerId, loserId, isCurrentWinner) {
+    battleResults.push({
+        round: currentRound,
+        winner_id: winnerId,
+        loser_id: loserId,
+    });
+
+    currentRound++;
+
+    if (!isCurrentWinner) {
+        currentWinner = products[1];
+    }
+
+    products = products.filter(product => product.id !== loserId);
+
+    renderBattleIfNeeded();
+}
+
+// Create an HTML element with attributes and text content
+function createElement(tag, attributes = {}, textContent = "") {
+    const element = document.createElement(tag);
+    for (const [key, value] of Object.entries(attributes)) {
+        element[key] = value;
+    }
+    if (textContent) {
+        element.textContent = textContent;
+    }
+    return element;
+}
+
+fetchProducts();

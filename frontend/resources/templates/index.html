@@ -4,15 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Battle</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
-    <h1>Pick your product champion and win a coupon</h1>
-    <button onclick="startGame()">Start Game</button>
-
+    <h1>Product Battle</h1>
+    <div id="product-container">
+        <p>Loading...</p>
+    </div>
     <script>
-        function startGame() {
-            window.location.href = "/game";
-        }
+        const PRODUCT_Endpoint = "{{ .productEndpoint }}";
     </script>
+    <script src="/static/js/scripts.js"></script>
 </body>
 </html>
