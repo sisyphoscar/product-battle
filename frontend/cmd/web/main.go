@@ -4,9 +4,12 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/oscarxxi/product-battle/web/internal/app/configs"
 )
 
 func main() {
+	configs.LoadConfig()
+
 	router := gin.Default()
 
 	router.Static("/static", "./resources/static")
@@ -14,9 +17,9 @@ func main() {
 
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "index.html", gin.H{
-			"brokerEndpoint": "http://localhost:8081",
+			"brokerEndpoint": configs.Endpoint.Broker,
 		})
 	})
 
-	router.Run(":8080")
+	router.Run(configs.App.URL)
 }
