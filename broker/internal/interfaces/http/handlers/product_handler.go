@@ -5,16 +5,11 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/oscarxxi/product-battle/broker/internal/domain/product"
+	"github.com/oscarxxi/product-battle/broker/internal/interfaces/http/dto"
 )
 
 type ProductHandler struct {
 	ProductService *product.ProductService
-}
-
-type GetAllProductsResponse struct {
-	Status  int               `json:"status"`
-	Message string            `json:"message"`
-	Data    []product.Product `json:"data"`
 }
 
 // NewProductHandler initializes a new ProductHandler
@@ -28,19 +23,17 @@ func NewProductHandler(productService *product.ProductService) *ProductHandler {
 func (h *ProductHandler) GetAllProducts(c *gin.Context) {
 	products, err := h.ProductService.GetAllProducts()
 	if err != nil {
-		res := GetAllProductsResponse{
+		c.JSON(http.StatusInternalServerError, dto.ErrorResponse{
 			Status:  http.StatusInternalServerError,
 			Message: "Failed to fetch products",
-			Data:    nil,
-		}
-		c.JSON(http.StatusInternalServerError, res)
+			Error:   err.Error(),
+		})
 		return
 	}
 
-	res := GetAllProductsResponse{
+	c.JSON(http.StatusOK, dto.SuccessResponse{
 		Status:  http.StatusOK,
 		Message: "success",
 		Data:    products,
-	}
-	c.JSON(http.StatusOK, res)
+	})
 }

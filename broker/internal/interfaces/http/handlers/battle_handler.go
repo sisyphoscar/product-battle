@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/oscarxxi/product-battle/broker/internal/app/configs"
 	"github.com/oscarxxi/product-battle/broker/internal/infra/messaging"
-	"github.com/oscarxxi/product-battle/broker/internal/interfaces/http/helpers"
+	"github.com/oscarxxi/product-battle/broker/internal/interfaces/http/dto"
 )
 
 type BattleHandler struct {
@@ -36,16 +36,17 @@ type BattleResult struct {
 func (h *BattleHandler) SubmitProductBattle(c *gin.Context) {
 	var results SubmitProductBattleRequest
 	if err := c.ShouldBindJSON(&results); err != nil {
-		helpers.ErrorResponse(c, err, helpers.ResponseOptions{
+		c.JSON(http.StatusBadRequest, dto.ErrorResponse{
 			Status:  http.StatusBadRequest,
 			Message: "Invalid request payload",
+			Error:   err.Error(),
 		})
 		return
 	}
 
 	resultsJSON, err := json.Marshal(results)
 	if err != nil {
-		helpers.ErrorResponse(c, err, helpers.ResponseOptions{
+		c.JSON(http.StatusInternalServerError, dto.ErrorResponse{
 			Status:  http.StatusInternalServerError,
 			Message: "Failed to marshal JSON",
 		})
@@ -55,12 +56,17 @@ func (h *BattleHandler) SubmitProductBattle(c *gin.Context) {
 	// publish the results to RabbitMQ
 	err = h.RabbitMQ.Publish(configs.Queue.BattleScoreQueue, string(resultsJSON))
 	if err != nil {
-		helpers.ErrorResponse(c, err, helpers.ResponseOptions{
+		c.JSON(http.StatusInternalServerError, dto.ErrorResponse{
 			Status:  http.StatusInternalServerError,
-			Message: "Failed to publish message",
+			Message: "Failed to publish message to RabbitMQ",
+			Error:   err.Error(),
 		})
 		return
 	}
 
-	helpers.SuccessResponse(c, results)
+	c.JSON(http.StatusOK, dto.SuccessResponse{
+		Status:  http.StatusOK,
+		Message: "success",
+		Data:    results,
+	})
 }
