@@ -1,6 +1,7 @@
 package messaging
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/oscarxxi/product-battle/score-service/internal/configs"
@@ -38,4 +39,21 @@ func (r *RabbitMQ) Close() {
 	r.channel.Close()
 	r.conn.Close()
 	log.Println("RabbitMQ connection closed")
+}
+
+// DeclareQueue ensures the queue exists before consuming messages
+func (r *RabbitMQ) DeclareQueue(queueName string) error {
+	_, err := r.channel.QueueDeclare(
+		queueName, // name
+		true,      // durable
+		false,     // auto-delete
+		false,     // exclusive
+		false,     // no-wait
+		nil,       // arguments
+	)
+	if err != nil {
+		return fmt.Errorf("failed to declare queue %s: %w", queueName, err)
+	}
+
+	return nil
 }

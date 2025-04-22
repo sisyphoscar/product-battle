@@ -23,7 +23,15 @@ func NewScoreConsumer(rabbitMQ *RabbitMQ, scoreService *score.ScoreService) *Sco
 
 // Listen starts consuming messages from the specified queue.
 func (c *ScoreConsumer) Listen() error {
-	messages, err := c.consume()
+	queueName := configs.Queue.BattleScoreQueue
+	err := c.rabbitMQ.DeclareQueue(queueName)
+	if err != nil {
+		return err
+	}
+
+	log.Println("Listening for messages on queue:", queueName)
+
+	messages, err := c.consumeFromQueue(queueName)
 	if err != nil {
 		return err
 	}
@@ -34,9 +42,9 @@ func (c *ScoreConsumer) Listen() error {
 }
 
 // consume sets up the consumer to listen for messages on the queue.
-func (c *ScoreConsumer) consume() (<-chan amqp.Delivery, error) {
+func (c *ScoreConsumer) consumeFromQueue(queueName string) (<-chan amqp.Delivery, error) {
 	messages, err := c.rabbitMQ.channel.Consume(
-		configs.Queue.BattleScoreQueue,
+		queueName,
 		"",    // consumer tag
 		false, // auto-ack
 		false, // exclusive
