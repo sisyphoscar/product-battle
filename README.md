@@ -1,48 +1,47 @@
-# 🧋 飲品 PK 折價券活動 — Side Project 規格書
+# 🧋 Product Battle
+- [🧠 Summary](#-summary)
+- [🧱 System Services](#-system-services)
+- [🧾 Flow](#-flow)
+    - [Battle](#battle)
+    - [Reward](#reward)
+    - [Background](#background)
+    - [Other](#other)
+- [🧱 Build Process](#-build-process)
 
-## 🧠 專案簡述
-
-這是一個多回合商品 PK 系統\
-使用者對飲品進行一對一對戰投票\
-最終選出一位「冠軍飲品」，並提供一張優惠券
-
----
-
-## 🧱 系統服務
-| Service Name     | 說明                                  |
-|------------------|---------------------------------------|
-| `front-end`      | 使用者操作界面，進行 PK 投票              |
-| `broker`         | API Gateway，統一對外與各微服務串接       |
-| `product-service`| 提供商品資料                            |
-| `coupon-service` | 根據冠軍產出優惠券資訊                   |
-| `score-service`  | 消化投票結果，計算分數寫入資料庫           |
-| `log-service`    | 統一記錄 log                           |
-| `report-service` | 產生 PK 活動報表                        |
-| `mail-service`   | 發送報表到指定 Email                    |
----
-
-## 🧾 流程說明
-
-### 1. PK 流程
-- 經由 broker 從 product-service 取得所有飲品
-- 每次展示兩張飲品，點選勝者，替換敗者
-- 記錄每場比賽結果
-- 最後選出積分最高的飲品為冠軍
-
-### 2. 提供優惠券
-- 經過 broker，由 coupon-service 提供冠軍飲品優惠券
-
-### 3. 結束投票
-- 將所有回合結果與最終冠軍傳給 broker
-- broker 將結果透過 Message Queue 傳給 score-service
-- score-service 統計勝負資訊，寫入 DB
-
-### 其他
-- log-service 統一管理 log
-- report-service 產生統計報表
-- mail-service 寄送報表
-
+## 🧠 Summary
+This is a multi-round product battle system.\
+Users participate in one-on-one drink battles through voting.\
+In the end, a "Champion Drink" is selected, and a coupon is provided.
 
 ---
+## 🧱 System Services
+| Service          | Description                                         |
+|------------------|-----------------------------------------------------|
+| `front-end`      | User interface for product voting                   |
+| `broker`         | API Gateway that unifies microservice access        |
+| `product-service`| Provides product data                               |
+| `coupon-service` | Issues coupons based on voting results              |
+| `score-service`  | Processes voting results and writes to the database |
+| `bi-service`     | Provides voting stats                               |
+---
 
-## 🧱 建置流程
+## 🧾 Flow
+### Battle
+- Users access the page.
+- Through the broker, all drinks are retrieved from the product-service.
+- Two products are displayed at a time; users select the winner, replacing the loser.
+- Each match result is recorded.
+- The drink with the highest score is selected as the champion.
+
+### Reward
+- Through the broker, the coupon-service provides coupons for the champion drink.
+
+### Background
+- All round results are sent to the MQ via the broker.
+- The score-service processes the results from the MQ and writes them to the database.
+
+### Other
+- Users access the page and retrieve statistics from the bi-service via the broker.
+---
+
+## 🧱 Build Process
