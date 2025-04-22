@@ -26,7 +26,7 @@ async function fetchProducts() {
         }
 
         products = result.data;
-        currentWinner = products[0]; // default winner
+        currentWinner = products[0];  // default winner
 
         return true;
     } catch (error) {
@@ -40,7 +40,7 @@ async function fetchProducts() {
 // Render the battle UI if needed
 function renderBattleIfNeeded() {
     const container = document.getElementById("product-container");
-    container.innerHTML = ""; // Clear previous content
+    container.innerHTML = "";  // Clear previous content
 
     if (products.length < 2) {
         submitBattleResults();
@@ -60,7 +60,7 @@ function submitBattleResults() {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            game: "season1", // TODO: Replace with actual game/season identifier
+            game: GAME,
             roundResults: battleResults,
         }),
     });
