@@ -4,10 +4,8 @@ import (
 	"context"
 	"log"
 
-	"github.com/oscarxxi/product-battle/broker/internal/app/configs"
 	product_proto "github.com/oscarxxi/product-battle/proto/product"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
@@ -17,17 +15,7 @@ type ProductService struct {
 }
 
 // NewProductService initializes a new ProductService
-func NewProductService() *ProductService {
-	conn, err := grpc.NewClient(
-		configs.Endpoint.ProductService,
-		grpc.WithTransportCredentials(insecure.NewCredentials()),
-	)
-	if err != nil {
-		log.Fatalf("Failed to connect to gRPC server: %v", err)
-	}
-
-	log.Println("ProductService connected")
-
+func NewProductService(conn *grpc.ClientConn) *ProductService {
 	return &ProductService{
 		client: product_proto.NewProductServiceClient(conn),
 		conn:   conn,

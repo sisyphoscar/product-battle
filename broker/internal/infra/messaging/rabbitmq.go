@@ -34,10 +34,11 @@ func NewRabbitMQ() (*RabbitMQ, error) {
 }
 
 // Close closes the RabbitMQ connection
-func (r *RabbitMQ) Close() {
-	r.channel.Close()
-	r.conn.Close()
-	log.Println("RabbitMQ connection closed")
+func (r *RabbitMQ) Close() error {
+	if err := r.channel.Close(); err != nil {
+		return err
+	}
+	return r.conn.Close()
 }
 
 // Create channel if the current channel is closed
