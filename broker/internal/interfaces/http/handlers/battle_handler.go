@@ -11,13 +11,13 @@ import (
 )
 
 type BattleHandler struct {
-	RabbitMQ *messaging.RabbitMQ
+	rabbitMQ *messaging.RabbitMQ
 }
 
 // NewBattleHandler initializes a new BattleHandler
 func NewBattleHandler(rabbitMQ *messaging.RabbitMQ) *BattleHandler {
 	return &BattleHandler{
-		RabbitMQ: rabbitMQ,
+		rabbitMQ: rabbitMQ,
 	}
 }
 
@@ -54,7 +54,7 @@ func (h *BattleHandler) SubmitProductBattle(c *gin.Context) {
 	}
 
 	// publish the results to RabbitMQ
-	err = h.RabbitMQ.Publish(configs.Queue.BattleScoreQueue, string(resultsJSON))
+	err = h.rabbitMQ.Publish(configs.Queue.BattleScoreQueue, string(resultsJSON))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.ErrorResponse{
 			Status:  http.StatusInternalServerError,

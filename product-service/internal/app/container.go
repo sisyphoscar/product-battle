@@ -10,7 +10,7 @@ import (
 )
 
 type AppContainer struct {
-	DB             *pgxpool.Pool
+	db             *pgxpool.Pool
 	ProductService *product.ProductService
 }
 
@@ -25,14 +25,14 @@ func NewAppContainer() *AppContainer {
 	productService := product.NewProductService(productRepo)
 
 	return &AppContainer{
-		DB:             db,
+		db:             db,
 		ProductService: productService,
 	}
 }
 
 // Close cleans up the resources used by the application container.
 func (c *AppContainer) Close() {
-	c.DB.Close()
+	c.db.Close()
 	log.Println("Database connection closed")
 	log.Println("Application container closed")
 }

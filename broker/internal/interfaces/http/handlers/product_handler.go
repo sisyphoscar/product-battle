@@ -9,19 +9,19 @@ import (
 )
 
 type ProductHandler struct {
-	ProductService *product.ProductService
+	productService *product.ProductService
 }
 
 // NewProductHandler initializes a new ProductHandler
 func NewProductHandler(productService *product.ProductService) *ProductHandler {
 	return &ProductHandler{
-		ProductService: productService,
+		productService: productService,
 	}
 }
 
 // GetAllProducts handles the GET request to fetch all products
 func (h *ProductHandler) GetAllProducts(c *gin.Context) {
-	products, err := h.ProductService.GetAllProducts()
+	products, err := h.productService.GetAllProducts()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, dto.ErrorResponse{
 			Status:  http.StatusInternalServerError,
