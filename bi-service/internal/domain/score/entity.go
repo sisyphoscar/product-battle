@@ -11,3 +11,9 @@ type Score struct {
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
+
+type ScoreGroupByWinnerResult struct {
+	ProductID   uint64 `json:"-"`
+	ProductName string `json:"productName"`
+	Score       int    `json:"score"`
+}

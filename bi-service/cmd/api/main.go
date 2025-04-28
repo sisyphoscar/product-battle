@@ -21,7 +21,7 @@ func main() {
 	defer appContainer.Close()
 
 	router := gin.Default()
-	router.GET("/stats/product-score", appContainer.BIHandler.GetProductScoreStats)
+	router.GET("/widgets/:widgetName", appContainer.WidgetHandler.Show)
 
 	server := &http.Server{
 		Addr:    configs.App.URL,

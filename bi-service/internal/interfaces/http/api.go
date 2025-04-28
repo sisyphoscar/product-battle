@@ -4,25 +4,34 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/oscarxxi/product-battle/bi-service/internal/domain/product"
-	"github.com/oscarxxi/product-battle/bi-service/internal/domain/score"
+	"github.com/oscarxxi/product-battle/bi-service/internal/domain/widget"
 )
 
-type BIHandler struct {
-	productService *product.ProductService
-	scoreService   *score.ScoreService
+type WidgetHandler struct {
+	widgetService *widget.WidgetService
 }
 
-// NewBIHandler initializes a new BIHandler
-func NewBIHandler(productService *product.ProductService, scoreService *score.ScoreService) *BIHandler {
-	return &BIHandler{
-		productService: productService,
-		scoreService:   scoreService,
+// NewWidgetHandler initializes a new WidgetHandler
+func NewWidgetHandler(widgetService *widget.WidgetService) *WidgetHandler {
+	return &WidgetHandler{
+		widgetService: widgetService,
 	}
 }
 
-func (h *BIHandler) GetProductScoreStats(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"message": "test",
-	})
+// Show handles the GET request for a specific widget.
+func (h *WidgetHandler) Show(c *gin.Context) {
+	widgetName := c.Param("widgetName")
+
+	if widgetName != widget.PRODUCT_SCORE_WIDGET {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid widget name: " + widgetName})
+		return
+	}
+
+	widget, err := h.widgetService.GetProductScoreWidget()
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get widget"})
+		return
+	}
+
+	c.JSON(http.StatusOK, widget)
 }

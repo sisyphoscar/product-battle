@@ -6,15 +6,16 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/oscarxxi/product-battle/bi-service/internal/domain/product"
 	"github.com/oscarxxi/product-battle/bi-service/internal/domain/score"
+	"github.com/oscarxxi/product-battle/bi-service/internal/domain/widget"
 	"github.com/oscarxxi/product-battle/bi-service/internal/infra/db"
 	repository "github.com/oscarxxi/product-battle/bi-service/internal/infra/repositories/postgres"
 	"github.com/oscarxxi/product-battle/bi-service/internal/interfaces/http"
 )
 
 type AppContainer struct {
-	BIHandler *http.BIHandler
-	productDB *pgxpool.Pool
-	scoreDB   *pgxpool.Pool
+	WidgetHandler *http.WidgetHandler
+	productDB     *pgxpool.Pool
+	scoreDB       *pgxpool.Pool
 }
 
 // NewAppContainer initializes the application container with dependencies.
@@ -35,12 +36,14 @@ func NewAppContainer() *AppContainer {
 	productService := product.NewProductService(productRepo)
 	scoreService := score.NewScoreService(scoreRepo)
 
-	biHandler := http.NewBIHandler(productService, scoreService)
+	widgetService := widget.NewWidgetService(productService, scoreService)
+
+	widgetHandler := http.NewWidgetHandler(widgetService)
 
 	return &AppContainer{
-		BIHandler: biHandler,
-		productDB: productDB,
-		scoreDB:   scoreDB,
+		WidgetHandler: widgetHandler,
+		productDB:     productDB,
+		scoreDB:       scoreDB,
 	}
 }
 
