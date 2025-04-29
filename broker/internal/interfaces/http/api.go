@@ -1,6 +1,7 @@
 package http
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -20,6 +21,43 @@ func SetApiRoutes(router *gin.Engine, ac *app.AppContainer) *gin.Engine {
 	{
 		apiGroup.GET("/products", ac.ProductHandler.GetAllProducts)
 		apiGroup.POST("/product-battle/submit", ac.BattleHandler.SubmitProductBattle)
+
+		apiGroup.GET("widgets/:widgetName", func(c *gin.Context) {
+			widget := c.Param("widgetName")
+
+			if widget != "product-score" {
+				c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid widget: " + widget})
+				return
+			}
+
+			res, err := http.Get("http://localhost:8085/widgets/product-score")
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get widget"})
+				return
+			}
+			defer res.Body.Close()
+
+			if res.StatusCode != http.StatusOK {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get widget"})
+				return
+			}
+
+			type WidgetResponse struct {
+				Name  string `json:"name"`
+				Stats []struct {
+					ProductName string `json:"productName"`
+					Score       int    `json:"score"`
+				} `json:"stats"`
+			}
+
+			var widgetResponse WidgetResponse
+			if err := json.NewDecoder(res.Body).Decode(&widgetResponse); err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to decode widget response"})
+				return
+			}
+			c.JSON(http.StatusOK, widgetResponse)
+
+		})
 	}
 
 	return router

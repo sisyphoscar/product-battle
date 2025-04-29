@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Score Chart</title>
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="chart-container">
+        <h1>Product Score</h1>
+        <canvas id="scoreChart" width="400" height="200" data-broker-endpoint="{{ .brokerEndpoint }}"></canvas>
+    </div>
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>

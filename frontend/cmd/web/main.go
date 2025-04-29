@@ -17,8 +17,14 @@ func main() {
 	router.LoadHTMLGlob("resources/templates/*")
 
 	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", gin.H{
+		c.HTML(http.StatusOK, "battle.html", gin.H{
 			"game":           uuid.New().String(),
+			"brokerEndpoint": configs.Endpoint.Broker,
+		})
+	})
+
+	router.GET("/dashboard", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "dashboard.html", gin.H{
 			"brokerEndpoint": configs.Endpoint.Broker,
 		})
 	})
