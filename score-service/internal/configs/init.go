@@ -15,5 +15,5 @@ func LoadConfig() {
 
 	loadAppConfig()
 	loadQueueConfig()
-	loadDatabaseConfig()
+	loadDBConfig()
 }

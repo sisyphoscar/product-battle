@@ -12,15 +12,15 @@ import (
 
 // NewPostgres creates a new PostgreSQL connection pool
 func NewPostgres() (*pgxpool.Pool, error) {
-	config, err := pgxpool.ParseConfig(configs.Database.PostgresDSN)
+	config, err := pgxpool.ParseConfig(configs.DB.PostgresDSN)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse database URL: %w", err)
 	}
 
 	// Set connection pool configuration
-	config.MaxConns = 10
-	config.MinConns = 2
-	config.MaxConnIdleTime = 30 * time.Minute
+	config.MaxConns = configs.DB.MaxConns
+	config.MinConns = configs.DB.MinConns
+	config.MaxConnIdleTime = configs.DB.MaxConnIdleTime
 
 	// Set connection timeout
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)

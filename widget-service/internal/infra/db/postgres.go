@@ -12,15 +12,15 @@ import (
 
 // NewProductPostgres creates a new PostgreSQL connection pool for the product database
 func NewProductPostgres() (*pgxpool.Pool, error) {
-	config, err := pgxpool.ParseConfig(configs.Database.PostgresDSN.Product)
+	config, err := pgxpool.ParseConfig(configs.DB.PostgresDSN.Product)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse database URL: %w", err)
 	}
 
 	// Set connection pool configuration
-	config.MaxConns = 10
-	config.MinConns = 2
-	config.MaxConnIdleTime = 30 * time.Minute
+	config.MaxConns = configs.DB.MaxConns
+	config.MinConns = configs.DB.MinConns
+	config.MaxConnIdleTime = configs.DB.MaxConnIdleTime
 
 	pool, err := newPostgresWithConfig(config)
 	if err != nil {
@@ -33,7 +33,7 @@ func NewProductPostgres() (*pgxpool.Pool, error) {
 
 // NewScorePostgres creates a new PostgreSQL connection pool for the score database
 func NewScorePostgres() (*pgxpool.Pool, error) {
-	config, err := pgxpool.ParseConfig(configs.Database.PostgresDSN.Score)
+	config, err := pgxpool.ParseConfig(configs.DB.PostgresDSN.Score)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse database URL: %w", err)
 	}
