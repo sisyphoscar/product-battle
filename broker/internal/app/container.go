@@ -13,59 +13,28 @@ import (
 )
 
 type AppContainer struct {
-	ProductHandler  *handlers.ProductHandler
-	BattleHandler   *handlers.BattleHandler
-	rabbitMQ        *messaging.RabbitMQ
+	// Handlers
+	ProductHandler *handlers.ProductHandler
+	BattleHandler  *handlers.BattleHandler
+	WidgetHandler  *handlers.WidgetHandler
+	// Services
+	productService *product.ProductService
+	widgetService  *widget.WidgetService
+	// Infrastructure
 	productGRPCConn *grpc.ClientConn
-	WidgetService   *widget.WidgetService
 	widgetGRPCConn  *grpc.ClientConn
-	WidgetHandler   *handlers.WidgetHandler
+	rabbitMQ        *messaging.RabbitMQ
 }
 
 // NewAppContainer initializes the application container with dependencies.
 func NewAppContainer() *AppContainer {
-	// load infra
-	// load repository
-	// load service
-	// load handler
-	rabbitMQ, err := messaging.NewRabbitMQ()
-	if err != nil {
-		log.Fatalf("Failed to connect to RabbitMQ: %v", err)
-	}
+	var ac AppContainer
 
-	battleHandler := handlers.NewBattleHandler(rabbitMQ)
+	ac.loadInfra()
+	ac.loadServices()
+	ac.loadHandlers()
 
-	productGRPCConn, err := grpc.NewClient(
-		configs.Endpoint.ProductService,
-		grpc.WithTransportCredentials(insecure.NewCredentials()),
-	)
-	if err != nil {
-		log.Fatalf("Failed to connect to gRPC server: %v", err)
-	}
-
-	productService := product.NewProductService(productGRPCConn)
-	productHandler := handlers.NewProductHandler(productService)
-
-	widgetGRPCConn, err := grpc.NewClient(
-		configs.Endpoint.WidgetService,
-		grpc.WithTransportCredentials(insecure.NewCredentials()),
-	)
-	if err != nil {
-		log.Fatalf("Failed to connect to Widget gRPC server: %v", err)
-	}
-
-	widgetService := widget.NewWidgetService(widgetGRPCConn)
-	widgetHandler := handlers.NewWidgetHandler(widgetService)
-
-	return &AppContainer{
-		ProductHandler:  productHandler,
-		BattleHandler:   battleHandler,
-		rabbitMQ:        rabbitMQ,
-		productGRPCConn: productGRPCConn,
-		WidgetService:   widgetService,
-		widgetGRPCConn:  widgetGRPCConn,
-		WidgetHandler:   widgetHandler,
-	}
+	return &ac
 }
 
 // Close cleans up the resources used by the application container.
@@ -92,4 +61,52 @@ func (c *AppContainer) Close() {
 	}
 
 	log.Println("Application container closed")
+}
+
+// loadInfra initializes the infrastructure components.
+func (ac *AppContainer) loadInfra() {
+	rabbitMQ, err := messaging.NewRabbitMQ()
+	if err != nil {
+		log.Fatalf("Failed to connect to RabbitMQ: %v", err)
+	}
+
+	productGRPCConn, err := grpc.NewClient(
+		configs.Endpoint.ProductService,
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+	)
+	if err != nil {
+		log.Fatalf("Failed to connect to gRPC server: %v", err)
+	}
+
+	widgetGRPCConn, err := grpc.NewClient(
+		configs.Endpoint.WidgetService,
+		grpc.WithTransportCredentials(insecure.NewCredentials()),
+	)
+	if err != nil {
+		log.Fatalf("Failed to connect to Widget gRPC server: %v", err)
+	}
+
+	ac.rabbitMQ = rabbitMQ
+	ac.productGRPCConn = productGRPCConn
+	ac.widgetGRPCConn = widgetGRPCConn
+}
+
+// loadServices initializes the services
+func (ac *AppContainer) loadServices() {
+	ps := product.NewProductService(ac.productGRPCConn)
+	ws := widget.NewWidgetService(ac.widgetGRPCConn)
+
+	ac.productService = ps
+	ac.widgetService = ws
+}
+
+// loadHandlers initializes the HTTP handlers
+func (ac *AppContainer) loadHandlers() {
+	ph := handlers.NewProductHandler(ac.productService)
+	bh := handlers.NewBattleHandler(ac.rabbitMQ)
+	wh := handlers.NewWidgetHandler(ac.widgetService)
+
+	ac.ProductHandler = ph
+	ac.BattleHandler = bh
+	ac.WidgetHandler = wh
 }

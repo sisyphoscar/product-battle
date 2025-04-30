@@ -18,12 +18,12 @@ import (
 func main() {
 	configs.LoadConfig()
 
-	appContainer := app.NewAppContainer()
-	defer appContainer.Close()
+	ac := app.NewAppContainer()
+	defer ac.Close()
 
 	// HTTP server setup
 	router := gin.Default()
-	router = http_interface.SetApiRoutes(router, appContainer)
+	router = http_interface.SetApiRoutes(router, ac)
 
 	server := &http.Server{
 		Addr:    configs.App.URL,
