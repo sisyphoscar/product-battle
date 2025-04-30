@@ -6,6 +6,7 @@ const battleResults = [];
 // Main function to initialize the game
 async function initializeGame() {
     const success = await fetchProducts();
+
     if (success) {
         renderBattleIfNeeded();
     }
@@ -14,13 +15,14 @@ async function initializeGame() {
 // Fetch product data from API
 async function fetchProducts() {
     const container = document.getElementById("product-container");
+
     try {
         const response = await fetch(BROKER_ENDPOINT + "/api/products");
         if (!response.ok) {
             throw new Error(`HTTP error: ${response.status}`);
         }
-        const result = await response.json();
 
+        const result = await response.json();
         if (!result || result.status !== 200 || !Array.isArray(result.data) || result.data.length < 2) {
             throw new Error("Product data format is incorrect");
         }
@@ -44,7 +46,6 @@ function renderBattleIfNeeded() {
 
     if (products.length < 2) {
         submitBattleResults();
-
         renderEndMessage(container);
         return;
     }
@@ -88,13 +89,23 @@ function renderBattle(container) {
 // Create product card
 function createProductCard(product, opponentId, isCurrentWinner) {
     const productDiv = createElement("div");
-
     const title = createElement("h2", {}, product.name);
+    const image = createElement("img", { src: product.imageUrl, alt: product.name, className: "product-image" });
+
+    // if image fails to load, set a default image
+    image.onerror = () => {
+        image.src = "/static/images/empty.png";
+        image.alt = "No image available";
+    };
+
+    const description = createElement("p", {}, product.description);
     const button = createElement("button", {}, "Vote");
 
     button.onclick = () => vote(product.id, opponentId, isCurrentWinner);
 
+    productDiv.appendChild(image);
     productDiv.appendChild(title);
+    productDiv.appendChild(description);
     productDiv.appendChild(button);
 
     return productDiv;
@@ -114,6 +125,7 @@ function vote(winnerId, loserId, isCurrentWinner) {
         currentWinner = products[1];
     }
 
+    // Remove the loser from the products
     products = products.filter(product => product.id !== loserId);
 
     renderBattleIfNeeded();
