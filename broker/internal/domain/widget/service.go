@@ -23,7 +23,7 @@ func NewWidgetService(conn *grpc.ClientConn) *WidgetService {
 }
 
 // GetWidget retrieves the widget data by name.
-func (w *WidgetService) GetWidget(name string) (*Widget, error) {
+func (s *WidgetService) GetWidget(name string) (*Widget, error) {
 	req := &widget_proto.WidgetRequest{
 		Name: name,
 	}
@@ -31,18 +31,18 @@ func (w *WidgetService) GetWidget(name string) (*Widget, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	res, err := w.client.GetWidget(ctx, req)
+	resp, err := s.client.GetWidget(ctx, req)
 	if err != nil {
 		return nil, err
 	}
 
 	var stats interface{}
-	if err := json.Unmarshal([]byte(res.Stats), &stats); err != nil {
+	if err := json.Unmarshal([]byte(resp.Stats), &stats); err != nil {
 		return nil, err
 	}
 
 	widget := Widget{
-		Name:  res.Name,
+		Name:  resp.Name,
 		Stats: stats,
 	}
 

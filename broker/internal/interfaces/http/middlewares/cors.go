@@ -1,6 +1,10 @@
 package middleware
 
-import "github.com/gin-gonic/gin"
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
 
 func Cors() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -12,7 +16,7 @@ func Cors() gin.HandlerFunc {
 		c.Writer.Header().Set("Access-Control-Max-Age", "86400")
 
 		if c.Request.Method == "OPTIONS" {
-			c.AbortWithStatus(204)
+			c.AbortWithStatus(http.StatusNoContent)
 			return
 		}
 

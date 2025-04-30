@@ -49,6 +49,7 @@ func (h *BattleHandler) SubmitProductBattle(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, dto.ErrorResponse{
 			Status:  http.StatusInternalServerError,
 			Message: "Failed to marshal JSON",
+			Error:   err.Error(),
 		})
 		return
 	}
@@ -64,8 +65,8 @@ func (h *BattleHandler) SubmitProductBattle(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, dto.SuccessResponse{
-		Status:  http.StatusOK,
+	c.JSON(http.StatusAccepted, dto.SuccessResponse{
+		Status:  http.StatusAccepted,
 		Message: "success",
 		Data:    results,
 	})

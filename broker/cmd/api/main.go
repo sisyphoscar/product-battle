@@ -22,12 +22,12 @@ func main() {
 	defer ac.Close()
 
 	// HTTP server setup
-	router := gin.Default()
-	router = http_interface.SetApiRoutes(router, ac)
+	r := gin.Default()
+	r = http_interface.SetApiRoutes(r, ac)
 
 	server := &http.Server{
 		Addr:    configs.App.URL,
-		Handler: router,
+		Handler: r,
 	}
 
 	go func() {
