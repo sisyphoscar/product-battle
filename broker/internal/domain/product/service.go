@@ -24,7 +24,7 @@ func NewProductService(conn *grpc.ClientConn) *ProductService {
 
 // GetAllProducts retrieves all products from the product service
 func (s *ProductService) GetAllProducts() ([]Product, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	resp, err := s.client.GetAllProducts(ctx, &emptypb.Empty{})

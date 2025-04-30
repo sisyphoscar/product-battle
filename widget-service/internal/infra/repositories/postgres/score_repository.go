@@ -18,7 +18,7 @@ func NewScoreRepository(db *pgxpool.Pool) *ScoreRepository {
 }
 
 func (r *ScoreRepository) CountScoreGroupByWinner() ([]score.ScoreGroupByWinnerResult, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	rows, err := r.db.Query(ctx, `

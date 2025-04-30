@@ -19,7 +19,7 @@ func NewProductRepository(db *pgxpool.Pool) *ProductRepository {
 
 func (r *ProductRepository) GetAll() ([]product.Product, error) {
 	// 5 seconds timeout
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	rows, err := r.db.Query(ctx, "SELECT id, name, description, image_url, price, created_at, updated_at FROM products")

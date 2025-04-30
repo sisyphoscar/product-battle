@@ -23,7 +23,7 @@ func NewPostgres() (*pgxpool.Pool, error) {
 	config.MaxConnIdleTime = configs.DB.MaxConnIdleTime
 
 	// Set connection timeout
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
 	// Create a new connection pool
