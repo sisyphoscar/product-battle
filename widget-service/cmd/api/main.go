@@ -12,6 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/oscarxxi/product-battle/bi-service/internal/app"
 	"github.com/oscarxxi/product-battle/bi-service/internal/app/configs"
+	"github.com/oscarxxi/product-battle/bi-service/internal/interfaces/grpc"
 )
 
 func main() {
@@ -20,8 +21,15 @@ func main() {
 	appContainer := app.NewAppContainer()
 	defer appContainer.Close()
 
+	// gRPC server setup
+	go grpc.Listen(appContainer.WidgetService)
+
+	// HTTP server setup
 	router := gin.Default()
-	router.GET("/widgets/:widgetName", appContainer.WidgetHandler.Show)
+
+	router.GET("/health-check", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"status": "ok"})
+	})
 
 	server := &http.Server{
 		Addr:    configs.App.URL,

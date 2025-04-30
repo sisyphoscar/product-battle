@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const brokerEndpoint = document.getElementById("scoreChart").dataset.brokerEndpoint;
 
     try {
-        // 從 API 獲取資料
         const response = await fetch(`${brokerEndpoint}/api/widgets/product-score`);
         if (!response.ok) {
             throw new Error(`Failed to fetch data: ${response.status}`);
@@ -10,11 +9,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const widgetData = await response.json();
 
-        // 提取資料
         const labels = widgetData.stats.map(stat => stat.productName);
         const data = widgetData.stats.map(stat => stat.score);
 
-        // 使用 Chart.js 繪製直條圖
         const ctx = document.getElementById('scoreChart').getContext('2d');
         new Chart(ctx, {
             type: 'bar',
@@ -49,7 +46,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     x: {
                         title: {
                             display: true,
-                            text: 'Product Name'
+                            text: 'Product'
                         }
                     }
                 }

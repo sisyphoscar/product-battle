@@ -2,7 +2,6 @@ package product
 
 import (
 	"context"
-	"log"
 
 	product_proto "github.com/oscarxxi/product-battle/proto/product"
 	"google.golang.org/grpc"
@@ -20,15 +19,6 @@ func NewProductService(conn *grpc.ClientConn) *ProductService {
 		client: product_proto.NewProductServiceClient(conn),
 		conn:   conn,
 	}
-}
-
-// Close closes the gRPC connection
-func (s *ProductService) Close() {
-	err := s.conn.Close()
-	if err != nil {
-		log.Printf("Failed to close gRPC connection: %v", err)
-	}
-	log.Println("ProductService connection closed")
 }
 
 // GetAllProducts retrieves all products from the product service

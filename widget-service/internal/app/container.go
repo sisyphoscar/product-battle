@@ -9,11 +9,10 @@ import (
 	"github.com/oscarxxi/product-battle/bi-service/internal/domain/widget"
 	"github.com/oscarxxi/product-battle/bi-service/internal/infra/db"
 	repository "github.com/oscarxxi/product-battle/bi-service/internal/infra/repositories/postgres"
-	"github.com/oscarxxi/product-battle/bi-service/internal/interfaces/http"
 )
 
 type AppContainer struct {
-	WidgetHandler *http.WidgetHandler
+	WidgetService *widget.WidgetService
 	productDB     *pgxpool.Pool
 	scoreDB       *pgxpool.Pool
 }
@@ -38,10 +37,8 @@ func NewAppContainer() *AppContainer {
 
 	widgetService := widget.NewWidgetService(productService, scoreService)
 
-	widgetHandler := http.NewWidgetHandler(widgetService)
-
 	return &AppContainer{
-		WidgetHandler: widgetHandler,
+		WidgetService: widgetService,
 		productDB:     productDB,
 		scoreDB:       scoreDB,
 	}

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package widget_proto;
+
+option go_package = "github.com/oscarxxi/product-battle/proto/widget;widget_proto";
+
+message WidgetRequest {
+    string name = 1;
+}
+
+message WidgetResponse {
+    string name = 1;
+    string stats = 2;
+}
+
+service WidgetService {
+    rpc GetWidget(WidgetRequest) returns (WidgetResponse);
+}
