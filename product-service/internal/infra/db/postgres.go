@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
 	"time"
@@ -10,34 +11,63 @@ import (
 	"github.com/sisyphoscar/product-battle/product-service/internal/app/configs"
 )
 
-// NewPostgres initializes a new PostgreSQL connection pool.
+const (
+	MAX_RETRIES        = 5
+	RETRY_INTERVAL     = 5 * time.Second
+	CONNECTION_TIMEOUT = 10 * time.Second
+)
+
+// NewPostgres initializes a new PostgreSQL connection pool with retry logic.
 func NewPostgres() (*pgxpool.Pool, error) {
-	config, err := pgxpool.ParseConfig(configs.DB.PostgresDSN)
+	var pool *pgxpool.Pool
+	var err error
+
+	config, err := prepareConfig()
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse database URL: %w", err)
+		return nil, err
 	}
 
-	// Set connection pool configuration
+	ctx, cancel := context.WithTimeout(context.Background(), CONNECTION_TIMEOUT)
+	defer cancel()
+
+	pool, err = connectPostgresWithRetry(ctx, config)
+	if err != nil {
+		log.Printf("Failed to connect to PostgreSQL: %v", err)
+		return nil, err
+	}
+
+	return pool, nil
+}
+
+// prepareConfig prepares the PostgreSQL configuration from the environment variables.
+func prepareConfig() (*pgxpool.Config, error) {
+	config, parseErr := pgxpool.ParseConfig(configs.DB.PostgresDSN)
+	if parseErr != nil {
+		return nil, fmt.Errorf("failed to parse database URL: %w", parseErr)
+	}
+
 	config.MaxConns = configs.DB.MaxConns
 	config.MinConns = configs.DB.MinConns
 	config.MaxConnIdleTime = configs.DB.MaxConnIdleTime
 
-	// Set connection timeout
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
+	return config, nil
+}
 
-	// Create a new connection pool
-	pool, err := pgxpool.NewWithConfig(ctx, config)
-	if err != nil {
-		return nil, fmt.Errorf("failed to create connection pool: %w", err)
+// connectPostgresWithRetry attempts to connect to PostgreSQL with retry logic.
+func connectPostgresWithRetry(ctx context.Context, config *pgxpool.Config) (*pgxpool.Pool, error) {
+	for i := 0; i < MAX_RETRIES; i++ {
+		pool, err := pgxpool.NewWithConfig(ctx, config)
+		if err == nil {
+			err = pool.Ping(ctx)
+			if err == nil {
+				log.Println("Database connected")
+				return pool, nil
+			}
+		}
+
+		log.Printf("Retrying to connect to database (%d/%d): %v\n", i+1, MAX_RETRIES, err)
+		time.Sleep(RETRY_INTERVAL)
 	}
 
-	// Test the connection
-	err = pool.Ping(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("failed to ping database: %w", err)
-	}
-
-	log.Println("Database connected")
-	return pool, nil
+	return nil, errors.New("database connection failed")
 }

@@ -2,12 +2,19 @@ package db
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"log"
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/sisyphoscar/product-battle/bi-service/internal/app/configs"
+)
+
+const (
+	MAX_RETRIES        = 5
+	RETRY_INTERVAL     = 5 * time.Second
+	CONNECTION_TIMEOUT = 10 * time.Second
 )
 
 // NewProductPostgres creates a new PostgreSQL connection pool for the product database
@@ -39,9 +46,9 @@ func NewScorePostgres() (*pgxpool.Pool, error) {
 	}
 
 	// Set connection pool configuration
-	config.MaxConns = 10
-	config.MinConns = 2
-	config.MaxConnIdleTime = 30 * time.Minute
+	config.MaxConns = configs.DB.MaxConns
+	config.MinConns = configs.DB.MinConns
+	config.MaxConnIdleTime = configs.DB.MaxConnIdleTime
 
 	pool, err := newPostgresWithConfig(config)
 	if err != nil {
@@ -52,22 +59,36 @@ func NewScorePostgres() (*pgxpool.Pool, error) {
 	return pool, nil
 }
 
+// newPostgresWithConfig creates a new PostgreSQL connection pool with the provided configuration
 func newPostgresWithConfig(config *pgxpool.Config) (*pgxpool.Pool, error) {
 	// Set connection timeout
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), CONNECTION_TIMEOUT)
 	defer cancel()
 
-	// Create a new connection pool
-	pool, err := pgxpool.NewWithConfig(ctx, config)
+	pool, err := connectPostgresWithRetry(ctx, config)
 	if err != nil {
-		return nil, fmt.Errorf("failed to create connection pool: %w", err)
-	}
-
-	// Test the connection
-	err = pool.Ping(ctx)
-	if err != nil {
-		return nil, fmt.Errorf("failed to ping database: %w", err)
+		log.Printf("Failed to connect to PostgreSQL: %v", err)
+		return nil, err
 	}
 
 	return pool, nil
+}
+
+// connectPostgresWithRetry attempts to connect to PostgreSQL with retry logic.
+func connectPostgresWithRetry(ctx context.Context, config *pgxpool.Config) (*pgxpool.Pool, error) {
+	for i := 0; i < MAX_RETRIES; i++ {
+		pool, err := pgxpool.NewWithConfig(ctx, config)
+		if err == nil {
+			err = pool.Ping(ctx)
+			if err == nil {
+				log.Println("Database connected")
+				return pool, nil
+			}
+		}
+
+		log.Printf("Retrying to connect to database (%d/%d): %v\n", i+1, MAX_RETRIES, err)
+		time.Sleep(RETRY_INTERVAL)
+	}
+
+	return nil, errors.New("database connection failed")
 }
