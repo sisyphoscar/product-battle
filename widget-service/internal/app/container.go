@@ -4,11 +4,11 @@ import (
 	"log"
 
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/oscarxxi/product-battle/bi-service/internal/domain/product"
-	"github.com/oscarxxi/product-battle/bi-service/internal/domain/score"
-	"github.com/oscarxxi/product-battle/bi-service/internal/domain/widget"
-	"github.com/oscarxxi/product-battle/bi-service/internal/infra/db"
-	repository "github.com/oscarxxi/product-battle/bi-service/internal/infra/repositories/postgres"
+	"github.com/sisyphoscar/product-battle/bi-service/internal/domain/product"
+	"github.com/sisyphoscar/product-battle/bi-service/internal/domain/score"
+	"github.com/sisyphoscar/product-battle/bi-service/internal/domain/widget"
+	"github.com/sisyphoscar/product-battle/bi-service/internal/infra/db"
+	repository "github.com/sisyphoscar/product-battle/bi-service/internal/infra/repositories/postgres"
 )
 
 type AppContainer struct {

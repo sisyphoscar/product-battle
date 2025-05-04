@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/oscarxxi/product-battle/broker/internal/domain/widget"
-	"github.com/oscarxxi/product-battle/broker/internal/interfaces/http/dto"
+	"github.com/sisyphoscar/product-battle/broker/internal/domain/widget"
+	"github.com/sisyphoscar/product-battle/broker/internal/interfaces/http/dto"
 )
 
 type WidgetHandler struct {

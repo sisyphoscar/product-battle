@@ -4,7 +4,7 @@ package product_proto;
 
 import "google/protobuf/empty.proto";
 
-option go_package = "github.com/oscarxxi/product-battle/proto/product;product_proto";
+option go_package = "github.com/sisyphoscar/product-battle/proto/product;product_proto";
 
 message Product {
     uint64 id = 1;

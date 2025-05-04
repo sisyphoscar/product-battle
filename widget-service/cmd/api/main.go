@@ -10,9 +10,9 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/oscarxxi/product-battle/bi-service/internal/app"
-	"github.com/oscarxxi/product-battle/bi-service/internal/app/configs"
-	"github.com/oscarxxi/product-battle/bi-service/internal/interfaces/grpc"
+	"github.com/sisyphoscar/product-battle/bi-service/internal/app"
+	"github.com/sisyphoscar/product-battle/bi-service/internal/app/configs"
+	"github.com/sisyphoscar/product-battle/bi-service/internal/interfaces/grpc"
 )
 
 func main() {

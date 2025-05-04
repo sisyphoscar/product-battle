@@ -3,8 +3,8 @@ package messaging
 import (
 	"log"
 
-	"github.com/oscarxxi/product-battle/broker/internal/app/configs"
 	amqp "github.com/rabbitmq/amqp091-go"
+	"github.com/sisyphoscar/product-battle/broker/internal/app/configs"
 )
 
 type RabbitMQ struct {

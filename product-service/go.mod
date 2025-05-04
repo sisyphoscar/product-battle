@@ -1,10 +1,10 @@
-module github.com/oscarxxi/product-battle/product-service
+module github.com/sisyphoscar/product-battle/product-service
 
 go 1.24.2
 
-require github.com/oscarxxi/product-battle/proto v0.0.0
+require github.com/sisyphoscar/product-battle/proto v0.0.0
 
-replace github.com/oscarxxi/product-battle/proto => ../proto
+replace github.com/sisyphoscar/product-battle/proto => ../proto
 
 require (
 	github.com/gin-gonic/gin v1.10.0

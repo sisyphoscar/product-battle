@@ -128,7 +128,7 @@ const file_widget_proto_rawDesc = "" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
 	"\x05stats\x18\x02 \x01(\tR\x05stats2W\n" +
 	"\rWidgetService\x12F\n" +
-	"\tGetWidget\x12\x1b.widget_proto.WidgetRequest\x1a\x1c.widget_proto.WidgetResponseB>Z<github.com/oscarxxi/product-battle/proto/widget;widget_protob\x06proto3"
+	"\tGetWidget\x12\x1b.widget_proto.WidgetRequest\x1a\x1c.widget_proto.WidgetResponseBAZ?github.com/sisyphoscar/product-battle/proto/widget;widget_protob\x06proto3"
 
 var (
 	file_widget_proto_rawDescOnce sync.Once

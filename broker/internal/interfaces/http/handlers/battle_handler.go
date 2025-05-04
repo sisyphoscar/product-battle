@@ -5,9 +5,9 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/oscarxxi/product-battle/broker/internal/app/configs"
-	"github.com/oscarxxi/product-battle/broker/internal/infra/messaging"
-	"github.com/oscarxxi/product-battle/broker/internal/interfaces/http/dto"
+	"github.com/sisyphoscar/product-battle/broker/internal/app/configs"
+	"github.com/sisyphoscar/product-battle/broker/internal/infra/messaging"
+	"github.com/sisyphoscar/product-battle/broker/internal/interfaces/http/dto"
 )
 
 type BattleHandler struct {

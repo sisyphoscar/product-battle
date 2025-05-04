@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/oscarxxi/product-battle/web/internal/app/configs"
+	"github.com/sisyphoscar/product-battle/web/internal/app/configs"
 )
 
 func main() {

@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/oscarxxi/product-battle/score-service/internal/domain/score"
+	"github.com/sisyphoscar/product-battle/score-service/internal/domain/score"
 )
 
 type ScoreRepository struct {

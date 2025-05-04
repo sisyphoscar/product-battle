@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package widget_proto;
 
-option go_package = "github.com/oscarxxi/product-battle/proto/widget;widget_proto";
+option go_package = "github.com/sisyphoscar/product-battle/proto/widget;widget_proto";
 
 message WidgetRequest {
     string name = 1;

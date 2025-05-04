@@ -1,4 +1,4 @@
-module github.com/oscarxxi/product-battle/web
+module github.com/sisyphoscar/product-battle/web
 
 go 1.24.2
 

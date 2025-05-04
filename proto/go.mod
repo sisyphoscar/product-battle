@@ -1,4 +1,4 @@
-module github.com/oscarxxi/product-battle/proto
+module github.com/sisyphoscar/product-battle/proto
 
 go 1.24.2
 

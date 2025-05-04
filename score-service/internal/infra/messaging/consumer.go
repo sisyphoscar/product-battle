@@ -3,9 +3,9 @@ package messaging
 import (
 	"log"
 
-	"github.com/oscarxxi/product-battle/score-service/internal/configs"
-	"github.com/oscarxxi/product-battle/score-service/internal/domain/score"
 	amqp "github.com/rabbitmq/amqp091-go"
+	"github.com/sisyphoscar/product-battle/score-service/internal/configs"
+	"github.com/sisyphoscar/product-battle/score-service/internal/domain/score"
 )
 
 type ScoreConsumer struct {

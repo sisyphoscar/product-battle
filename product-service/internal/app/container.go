@@ -4,9 +4,9 @@ import (
 	"log"
 
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/oscarxxi/product-battle/product-service/internal/domain/product"
-	"github.com/oscarxxi/product-battle/product-service/internal/infra/db"
-	repository "github.com/oscarxxi/product-battle/product-service/internal/infra/repositories/postgres"
+	"github.com/sisyphoscar/product-battle/product-service/internal/domain/product"
+	"github.com/sisyphoscar/product-battle/product-service/internal/infra/db"
+	repository "github.com/sisyphoscar/product-battle/product-service/internal/infra/repositories/postgres"
 )
 
 type AppContainer struct {

@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/oscarxxi/product-battle/bi-service/internal/domain/widget"
+	"github.com/sisyphoscar/product-battle/bi-service/internal/domain/widget"
 )
 
 type WidgetHandler struct {

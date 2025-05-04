@@ -1,4 +1,4 @@
-module github.com/oscarxxi/product-battle/score-service
+module github.com/sisyphoscar/product-battle/score-service
 
 go 1.24.2
 

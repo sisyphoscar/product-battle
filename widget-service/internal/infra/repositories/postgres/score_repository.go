@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/oscarxxi/product-battle/bi-service/internal/domain/score"
+	"github.com/sisyphoscar/product-battle/bi-service/internal/domain/score"
 )
 
 type ScoreRepository struct {

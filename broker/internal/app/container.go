@@ -3,11 +3,11 @@ package app
 import (
 	"log"
 
-	"github.com/oscarxxi/product-battle/broker/internal/app/configs"
-	"github.com/oscarxxi/product-battle/broker/internal/domain/product"
-	"github.com/oscarxxi/product-battle/broker/internal/domain/widget"
-	"github.com/oscarxxi/product-battle/broker/internal/infra/messaging"
-	handlers "github.com/oscarxxi/product-battle/broker/internal/interfaces/http/handlers"
+	"github.com/sisyphoscar/product-battle/broker/internal/app/configs"
+	"github.com/sisyphoscar/product-battle/broker/internal/domain/product"
+	"github.com/sisyphoscar/product-battle/broker/internal/domain/widget"
+	"github.com/sisyphoscar/product-battle/broker/internal/infra/messaging"
+	handlers "github.com/sisyphoscar/product-battle/broker/internal/interfaces/http/handlers"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 )

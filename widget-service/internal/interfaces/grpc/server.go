@@ -6,13 +6,13 @@ import (
 	"log"
 	"net"
 
-	"github.com/oscarxxi/product-battle/bi-service/internal/app/configs"
-	"github.com/oscarxxi/product-battle/bi-service/internal/domain/widget"
+	"github.com/sisyphoscar/product-battle/bi-service/internal/app/configs"
+	"github.com/sisyphoscar/product-battle/bi-service/internal/domain/widget"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	widget_proto "github.com/oscarxxi/product-battle/proto/widget"
+	widget_proto "github.com/sisyphoscar/product-battle/proto/widget"
 )
 
 type WidgetServer struct {

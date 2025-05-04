@@ -1,8 +1,8 @@
 package widget
 
 import (
-	"github.com/oscarxxi/product-battle/bi-service/internal/domain/product"
-	"github.com/oscarxxi/product-battle/bi-service/internal/domain/score"
+	"github.com/sisyphoscar/product-battle/bi-service/internal/domain/product"
+	"github.com/sisyphoscar/product-battle/bi-service/internal/domain/score"
 )
 
 type WidgetService struct {

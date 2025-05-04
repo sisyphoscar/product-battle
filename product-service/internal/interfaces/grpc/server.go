@@ -5,12 +5,12 @@ import (
 	"log"
 	"net"
 
-	"github.com/oscarxxi/product-battle/product-service/internal/app/configs"
-	"github.com/oscarxxi/product-battle/product-service/internal/domain/product"
+	"github.com/sisyphoscar/product-battle/product-service/internal/app/configs"
+	"github.com/sisyphoscar/product-battle/product-service/internal/domain/product"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/emptypb"
 
-	product_proto "github.com/oscarxxi/product-battle/proto/product"
+	product_proto "github.com/sisyphoscar/product-battle/proto/product"
 )
 
 type ProductServer struct {

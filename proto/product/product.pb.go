@@ -147,7 +147,7 @@ const file_product_proto_rawDesc = "" +
 	"\vProductList\x122\n" +
 	"\bproducts\x18\x01 \x03(\v2\x16.product_proto.ProductR\bproducts2V\n" +
 	"\x0eProductService\x12D\n" +
-	"\x0eGetAllProducts\x12\x16.google.protobuf.Empty\x1a\x1a.product_proto.ProductListB@Z>github.com/oscarxxi/product-battle/proto/product;product_protob\x06proto3"
+	"\x0eGetAllProducts\x12\x16.google.protobuf.Empty\x1a\x1a.product_proto.ProductListBCZAgithub.com/sisyphoscar/product-battle/proto/product;product_protob\x06proto3"
 
 var (
 	file_product_proto_rawDescOnce sync.Once

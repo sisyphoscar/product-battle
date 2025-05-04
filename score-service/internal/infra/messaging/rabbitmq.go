@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/oscarxxi/product-battle/score-service/internal/configs"
 	amqp "github.com/rabbitmq/amqp091-go"
+	"github.com/sisyphoscar/product-battle/score-service/internal/configs"
 )
 
 type RabbitMQ struct {

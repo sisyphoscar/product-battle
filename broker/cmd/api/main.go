@@ -10,9 +10,9 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/oscarxxi/product-battle/broker/internal/app"
-	"github.com/oscarxxi/product-battle/broker/internal/app/configs"
-	http_interface "github.com/oscarxxi/product-battle/broker/internal/interfaces/http"
+	"github.com/sisyphoscar/product-battle/broker/internal/app"
+	"github.com/sisyphoscar/product-battle/broker/internal/app/configs"
+	http_interface "github.com/sisyphoscar/product-battle/broker/internal/interfaces/http"
 )
 
 func main() {

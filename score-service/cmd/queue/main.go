@@ -6,11 +6,11 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/oscarxxi/product-battle/score-service/internal/configs"
-	"github.com/oscarxxi/product-battle/score-service/internal/domain/score"
-	"github.com/oscarxxi/product-battle/score-service/internal/infra/db"
-	"github.com/oscarxxi/product-battle/score-service/internal/infra/messaging"
-	repository "github.com/oscarxxi/product-battle/score-service/internal/infra/repositories/postgres"
+	"github.com/sisyphoscar/product-battle/score-service/internal/configs"
+	"github.com/sisyphoscar/product-battle/score-service/internal/domain/score"
+	"github.com/sisyphoscar/product-battle/score-service/internal/infra/db"
+	"github.com/sisyphoscar/product-battle/score-service/internal/infra/messaging"
+	repository "github.com/sisyphoscar/product-battle/score-service/internal/infra/repositories/postgres"
 )
 
 func main() {

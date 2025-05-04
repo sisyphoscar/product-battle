@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/oscarxxi/product-battle/broker/internal/app"
-	middleware "github.com/oscarxxi/product-battle/broker/internal/interfaces/http/middlewares"
+	"github.com/sisyphoscar/product-battle/broker/internal/app"
+	middleware "github.com/sisyphoscar/product-battle/broker/internal/interfaces/http/middlewares"
 )
 
 // SetApiRoutes sets up the API routes for the application.

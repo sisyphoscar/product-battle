@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/oscarxxi/product-battle/product-service/internal/app/configs"
+	"github.com/sisyphoscar/product-battle/product-service/internal/app/configs"
 )
 
 // NewPostgres initializes a new PostgreSQL connection pool.

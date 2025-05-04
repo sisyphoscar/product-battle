@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
-	"github.com/oscarxxi/product-battle/bi-service/internal/app/configs"
+	"github.com/sisyphoscar/product-battle/bi-service/internal/app/configs"
 )
 
 // NewProductPostgres creates a new PostgreSQL connection pool for the product database
