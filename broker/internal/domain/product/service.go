@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	product_proto "github.com/sisyphoscar/product-battle/proto/product"
+	product_proto "github.com/sisyphoscar/product-battle-proto/product"
 	"google.golang.org/grpc"
 	"google.golang.org/protobuf/types/known/emptypb"
 )

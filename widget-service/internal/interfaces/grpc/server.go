@@ -12,7 +12,7 @@ import (
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
-	widget_proto "github.com/sisyphoscar/product-battle/proto/widget"
+	widget_proto "github.com/sisyphoscar/product-battle-proto/widget"
 )
 
 type WidgetServer struct {

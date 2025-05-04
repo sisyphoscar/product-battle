@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"time"
 
-	widget_proto "github.com/sisyphoscar/product-battle/proto/widget"
+	widget_proto "github.com/sisyphoscar/product-battle-proto/widget"
 	"google.golang.org/grpc"
 )
 

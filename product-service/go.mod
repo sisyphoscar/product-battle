@@ -2,9 +2,7 @@ module github.com/sisyphoscar/product-battle/product-service
 
 go 1.24.2
 
-require github.com/sisyphoscar/product-battle/proto v0.0.0
-
-replace github.com/sisyphoscar/product-battle/proto => ../proto
+require github.com/sisyphoscar/product-battle-proto v1.0.0
 
 require (
 	github.com/gin-gonic/gin v1.10.0
