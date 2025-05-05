@@ -70,6 +70,7 @@ services:
       - "54317:5432"
     volumes:
       - postgres17_data:/var/lib/postgresql/data
+      - ./initdb.sql:/docker-entrypoint-initdb.d/initdb.sql
     env_file:
       - ./.env
   rabbitmq:
