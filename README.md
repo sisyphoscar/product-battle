@@ -39,7 +39,10 @@ docker compose up -d
 
 ### 3. 資料庫遷移
 執行資料庫遷移，請記得將指令中的帳號與密碼替換為您設定的值：
+
 ```
+brew install golang-migrate
+
 migrate -path product-service/internal/infra/db/migrations -database "postgres://<username>:<password>@localhost:54317/product?sslmode=disable" up
 
 migrate -path score-service/internal/infra/db/migrations -database "postgres://<username>:<password>@localhost:54317/score?sslmode=disable" up
