@@ -26,7 +26,7 @@ func main() {
 	r = http_interface.SetApiRoutes(r, ac)
 
 	server := &http.Server{
-		Addr:    configs.App.URL,
+		Addr:    ":" + configs.App.Port,
 		Handler: r,
 	}
 

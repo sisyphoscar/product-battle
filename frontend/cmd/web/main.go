@@ -29,5 +29,5 @@ func main() {
 		})
 	})
 
-	router.Run(configs.App.URL)
+	router.Run(":" + configs.App.Port)
 }
