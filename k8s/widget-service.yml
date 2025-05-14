@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: widget-service-config
+data:
+  APP_PORT: "8085"
+  GRPC_PORT: "8086"
+  POSTGRES_PRODUCT_DSN: "host=host.minikube.internal user=root password=root dbname=product port=54317 sslmode=disable"
+  POSTGRES_SCORE_DSN: "host=host.minikube.internal user=root password=root dbname=score port=54317 sslmode=disable"
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: widget-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: widget-service
+  template:
+    metadata:
+      labels:
+        app: widget-service
+    spec:
+      containers:
+      - name: widget-service
+        image: "sisyphoscar/product-battle-widget-service:1.0.0"
+        envFrom:
+        - configMapRef:
+            name: widget-service-config
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8085 # HTTP
+        - containerPort: 8086 # gRPC
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: widget-service
+spec:
+  selector:
+    app: widget-service
+  ports:
+  - protocol: TCP
+    name: http-port
+    port: 8085
+    targetPort: 8085
+  - protocol: TCP
+    name: grpc-port
+    port: 8086
+    targetPort: 8086

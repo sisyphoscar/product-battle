@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: broker-config
+data:
+  APP_PORT: "8081"
+  PRODUCT_SERVICE_ENDPOINT: "product-service:81"
+  WIDGET_SERVICE_ENDPOINT: "widget-service:81"
+  RABBIT_MQ_DSN: "amqp://admin:admin@host.minikube.internal:5672"
+  BATTLE_SCORE_QUEUE: "product-battle-score"
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: broker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: broker
+  template:
+    metadata:
+      labels:
+        app: broker
+    spec:
+      containers:
+      - name: broker
+        image: "sisyphoscar/product-battle-broker:1.0.0"
+        envFrom:
+        - configMapRef:
+            name: broker-config
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8081
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: broker
+spec:
+  selector:
+    app: broker
+  type: LoadBalancer
+  ports:
+  - protocol: TCP
+    name: api-port
+    port: 8081
+    targetPort: 8081
