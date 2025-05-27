@@ -4,9 +4,8 @@ metadata:
   name: broker-config
 data:
   APP_PORT: "8081"
-  PRODUCT_SERVICE_ENDPOINT: "product-service:81"
-  WIDGET_SERVICE_ENDPOINT: "widget-service:81"
-  RABBIT_MQ_DSN: "amqp://admin:admin@host.minikube.internal:5672"
+  PRODUCT_SERVICE_ENDPOINT: "product-service:8083"
+  WIDGET_SERVICE_ENDPOINT: "widget-service:8086"
   BATTLE_SCORE_QUEUE: "product-battle-score"
 
 ---
@@ -31,6 +30,8 @@ spec:
         envFrom:
         - configMapRef:
             name: broker-config
+        - secretRef:
+            name: broker-secret
         resources:
           requests:
             memory: "64Mi"

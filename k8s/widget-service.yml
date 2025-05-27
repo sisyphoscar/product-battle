@@ -30,6 +30,8 @@ spec:
         envFrom:
         - configMapRef:
             name: widget-service-config
+        - secretRef:
+            name: widget-service-secret
         resources:
           requests:
             memory: "64Mi"
