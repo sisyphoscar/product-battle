@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: score-service
-        image: "sisyphoscar/product-battle-score-service:1.0.0"
+        image: "sisyphoscar/product-battle-score-service:1.0.1"
         envFrom:
         - configMapRef:
             name: score-service-config

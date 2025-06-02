@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
       - name: widget-service
-        image: "sisyphoscar/product-battle-widget-service:1.0.0"
+        image: "sisyphoscar/product-battle-widget-service:1.0.1"
         envFrom:
         - configMapRef:
             name: widget-service-config
