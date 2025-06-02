@@ -94,7 +94,7 @@ function createProductCard(product, opponentId, isCurrentWinner) {
 
     // if image fails to load, set a default image
     image.onerror = () => {
-        image.src = "/static/images/empty.png";
+        image.src = "/static/images/no-image.png";
         image.alt = "No image available";
     };
 
