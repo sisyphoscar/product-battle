@@ -1,62 +1,62 @@
 services:
   frontend:
     build:
-      context: ./frontend
+      context: ../../frontend
       dockerfile: frontend.dockerfile
     container_name: frontend
     ports:
       - "8080:80"
     volumes:
-      - ./frontend/.env:/app/.env
+      - ../../frontend/.env:/app/.env
     depends_on:
       - broker
   broker:
     build:
-      context: ./broker
+      context: ../../broker
       dockerfile: broker.dockerfile
     container_name: broker
     ports:
       - "8081:80"
     volumes:
-      - ./broker/.env:/app/.env
+      - ../../broker/.env:/app/.env
     depends_on:
       - product-service
       - widget-service
       - rabbitmq
   product-service:
     build:
-      context: ./product-service
+      context: ../../product-service
       dockerfile: product-service.dockerfile
     container_name: product-service
     ports:
       - "8082:80"
       - "8083:81"
     volumes:
-      - ./product-service/.env:/app/.env
+      - ../../product-service/.env:/app/.env
     depends_on:
       - postgres17
   widget-service:
     build:
-      context: ./widget-service
+      context: ../../widget-service
       dockerfile: widget-service.dockerfile
     container_name: widget-service
     ports:
       - "8084:80"
       - "8085:81"
     volumes:
-      - ./widget-service/.env:/app/.env
+      - ../../widget-service/.env:/app/.env
     depends_on:
       - postgres17
   score-service:
     build:
-      context: ./score-service
+      context: ../../score-service
       dockerfile: score-service.dockerfile
     container_name: score-service
     ports:
       - "8086:80"
       - "8087:81"
     volumes:
-      - ./score-service/.env:/app/.env
+      - ../../score-service/.env:/app/.env
     depends_on:
       - postgres17
       - rabbitmq

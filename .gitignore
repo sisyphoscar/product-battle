@@ -1,6 +1,6 @@
 .env
 
-k8s/secret/*.yml
-k8s/secret/*.yaml
-!k8s/secret/*.example.yml
-!k8s/secret/*.example.yaml
+deployment/k8s/secret/*.yml
+deployment/k8s/secret/*.yaml
+!deployment/k8s/secret/*.example.yml
+!deployment/k8s/secret/*.example.yaml
