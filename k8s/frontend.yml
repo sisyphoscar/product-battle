@@ -24,7 +24,7 @@ spec:
             cpu: "500m"
         env:
           - name: BROKER_URL
-            value: "http://broker.product-battle"
+            value: "http://product-battle.broker"
         ports:
           - containerPort: 8080
 
