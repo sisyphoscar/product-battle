@@ -78,6 +78,8 @@ This project aims to provide hands-on experience with Microservices architecture
 
 ## System Entry Points
 
-- Docker container: [http://localhost:8080](http://localhost:8080)
-- Kubernetes: [http://product-battle.frontend/dashboard](http://product-battle.frontend/dashboard)
-- RabbitMQ: [http://localhost:15672](http://localhost:15672)
+| Entry Point| Docker| Kubernetes|
+|--------------|--------------------------------------------------------------------|----------------------------------------------|
+| Game         | [http://localhost:8080](http://localhost:8080)                     | [http://product-battle.frontend](http://product-battle.frontend) |
+| Dashboard    | [http://localhost:8080/dashboard](http://localhost:8080/dashboard) | [http://product-battle.frontend/dashboard](http://product-battle.frontend/dashboard) |
+| RabbitMQ     | [http://localhost:15672](http://localhost:15672)                   | — |

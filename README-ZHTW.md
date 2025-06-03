@@ -76,6 +76,8 @@ Product Battle 是一個商品對決系統，採用逐輪一對一淘汰賽機�
 
 ## 系統入口
 
-- Docker container: [http://localhost:8080](http://localhost:8080)
-- Kubernetes: [http://product-battle.frontend/dashboard](http://product-battle.frontend/dashboard)
-- RabbitMQ: [http://localhost:15672](http://localhost:15672)
+| 入口| Docker| Kubernetes|
+|--------------|----------------------------------------------------------------|----------------------------------------------|
+| 遊戲主頁         | [http://localhost:8080](http://localhost:8080)              | [http://product-battle.frontend](http://product-battle.frontend) |
+| 儀表板    | [http://localhost:8080/dashboard](http://localhost:8080/dashboard) | [http://product-battle.frontend/dashboard](http://product-battle.frontend/dashboard) |
+| RabbitMQ     | [http://localhost:15672](http://localhost:15672)               | — |
