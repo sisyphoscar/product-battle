@@ -51,7 +51,6 @@ metadata:
 spec:
   selector:
     app: broker
-  type: LoadBalancer
   ports:
   - protocol: TCP
     name: api-port
