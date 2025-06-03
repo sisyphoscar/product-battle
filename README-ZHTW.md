@@ -1,3 +1,8 @@
+<p align="center">
+  <img src="battle.png" alt="封面左圖" width="49%" style="display:inline-block;vertical-align:middle;">
+  <img src="dashboard.png" alt="封面右圖" width="49%" style="display:inline-block;vertical-align:middle;">
+</p>
+
 # Product Battle
 
 中文 | [English](./README.md)
